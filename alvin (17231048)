@@ -1,0 +1,133 @@
+#include <iostream>
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class Stack {
+private:
+    Node* top;
+
+public:
+    Stack() : top(nullptr) {}
+
+    void push(int value) {
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->next = top;
+        top = newNode;
+    }
+
+    void pop() {
+        if (top == nullptr) {
+            std::cout << "Stack is empty!" << std::endl;
+            return;
+        }
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+    }
+
+    void peek() const {
+        if (top == nullptr) {
+            std::cout << "Stack is empty!" << std::endl;
+        } else {
+            std::cout << "Top element: " << top->data << std::endl;
+        }
+    }
+
+    void display() const {
+        Node* temp = top;
+        while (temp != nullptr) {
+            std::cout << temp->data << " ";
+            temp = temp->next;
+        }
+        std::cout << std::endl;
+    }
+};
+
+class Queue {
+private:
+    Node* front;
+    Node* rear;
+
+public:
+    Queue() : front(nullptr), rear(nullptr) {}
+
+    void enqueue(int value) {
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->next = nullptr;
+
+        if (rear == nullptr) {
+            front = rear = newNode;
+        } else {
+            rear->next = newNode;
+            rear = newNode;
+        }
+    }
+
+    void dequeue() {
+        if (front == nullptr) {
+            std::cout << "Queue is empty!" << std::endl;
+            return;
+        }
+        Node* temp = front;
+        front = front->next;
+        delete temp;
+
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+    }
+
+    void peek() const {
+        if (front == nullptr) {
+            std::cout << "Queue is empty!" << std::endl;
+        } else {
+            std::cout << "Front element: " << front->data << std::endl;
+        }
+    }
+
+    void display() const {
+        Node* temp = front;
+        while (temp != nullptr) {
+            std::cout << temp->data << " ";
+            temp = temp->next;
+        }
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    Stack stack;
+    stack.push(10);
+    stack.push(20);
+    stack.push(30);
+
+    std::cout << "Stack contents: ";
+    stack.display();
+
+    stack.peek();
+
+    stack.pop();
+    std::cout << "Stack after pop: ";
+    stack.display();
+
+    Queue queue;
+    queue.enqueue(10);
+    queue.enqueue(20);
+    queue.enqueue(30);
+
+    std::cout << "Queue contents: ";
+    queue.display();
+
+    queue.peek();
+
+    queue.dequeue();
+    std::cout << "Queue after dequeue: ";
+    queue.display();
+
+    return 0;
+}
